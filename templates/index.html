@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RSA Tool</title>
+</head>
+<body>
+    <h1>RSA Decryption Tool</h1>
+    <form method="POST">
+        <label>N:</label><br>
+        <input type="text" name="N" required><br><br>
+        
+        <label>e:</label><br>
+        <input type="text" name="e" required><br><br>
+
+        <label>ct:</label><br>
+        <input type="text" name="ct" required><br><br>
+
+        <label>Attack Method:</label><br>
+        <select name="attack_method">
+            <option value="normal">Normal</option>
+            <option value="low">Low Exponent</option>
+            <option value="wiener">Wiener</option>
+        </select><br><br>
+
+        <button type="submit">Decrypt</button>
+    </form>
+
+    <h3>Result:</h3>
+    <p>{{ result }}</p>
+</body>
+</html>

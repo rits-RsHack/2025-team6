@@ -27,4 +27,4 @@ def solve(p, q, e, ct):    #解読プログラム
     plain_hex = pow(ct, d, p*q)
     plain_text = long_to_bytes(plain_hex)
 
-    return plain_text.decode(errors = "ignore")
+    return plain_text.decode()
