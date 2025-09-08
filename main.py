@@ -28,7 +28,7 @@ def index():
         except Exception as ex:
             result = f"Error: {ex}"
 
-    return render_template("index.html", result=result)
+    return render_template("index.html", output=result)
 
 if __name__ == "__main__":
     app.run(debug=True)
