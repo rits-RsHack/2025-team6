@@ -21,7 +21,7 @@ def factordb(number):
 
         if data['status'] == "FF":
             factors = data.get('factors', [])
-            if len(factors) >= 2:
+            if len(factors) == 2:
                 p = int(data['factors'][0][0])
                 q = int(data['factors'][1][0])
                 #print(f"p = {p}")
@@ -74,7 +74,7 @@ def yafu_factor(N, e, ct):
                 factors.append(int(m.group(1)))
     
         if not factors:
-            print("No factors found by yafu")
+            print("Not found")
             return None
         
         p = 1
@@ -89,8 +89,8 @@ def yafu_factor(N, e, ct):
         return plain_text.decode()
 
     except Exception as e:
-        print(f"yafu Decryption error: {e}")
-        return "yafu Decryption failed" #復号失敗
+        print(f"Decryption error: {e}")
+        return "yafu failed"
 
 
 
@@ -104,7 +104,7 @@ def solve(p, q, e, ct):    #通常攻撃プログラム
         return plain_text.decode()
     except Exception as e:
         print(f"Error has occurred: {e}")
-        return "Decryption failed"
+        return "No factor"
         #復号失敗
 
 
@@ -117,9 +117,9 @@ def low_index(N, e, ct): #低指数攻撃プログラム
         if exact:
             plain_text = long_to_bytes(plain_hex)
             return plain_text.decode()
-    except Exception as e:
-        print(f"Error has occurred: {e}")
-        return "Decryption failed" #復号失敗
+    except Exception:
+        return Wiener(N, e, ct)
+
 
 
 def squared_index(N, e, ct):
@@ -131,9 +131,8 @@ def squared_index(N, e, ct):
         plain_hex = pow(ct, d, N)
         plain_text = long_to_bytes(plain_hex)
         return plain_text.decode()
-    except Exception as e:
-        print(f"Error has occurred: {e}")
-        return "Decryption failed" #復号失敗
+    except Exception:
+        return yafu_factor(N, e, ct)
 
 
 def N_prime(N, e, ct):
@@ -145,24 +144,22 @@ def N_prime(N, e, ct):
         plain_hex = pow(ct, d, N)
         plain_text = long_to_bytes(plain_hex)
         return plain_text.decode()
-    except Exception as e:
-        print(f"Error has occurred: {e}")
-        return "Decryption failed" #復号失敗
+    except Exception:
+        return squared_index(N, e, ct)
 
 
 def Wiener(N, e, ct):
 
     d = owiener.attack(e, N)
     if d is None:
-        return "Decryption failed" #復号失敗
+        return Fermat_factor(N, e, ct)
     else:
         try:
             plain_hex = pow(ct, d, N)
             plain_text = long_to_bytes(plain_hex)
             return plain_text.decode()
-        except Exception as e:
-            print(f"Error has occurred: {e}")
-            return "Decryption failed" #復号失敗
+        except Exception:
+            return Fermat_factor(N, e, ct)
 
 
 def is_square(n):
@@ -175,6 +172,7 @@ def Fermat_factor(N, e, ct):
     a = isqrt(N)
     if a * a < N:
         a += 1
+
 
     limit = max_diff // 2
     
@@ -191,11 +189,8 @@ def Fermat_factor(N, e, ct):
                 plain_hex = pow(ct, d, p*q)
                 plain_text = long_to_bytes(plain_hex)
                 return plain_text.decode()
-            except Exception as e:
-                print(f"Error has occurred: {e}")
-                return "Decryption failed"
-                #復号失敗
+            except Exception:
+                return N_prime(N, e, ct)
 
         a += 1
-    
-    return "Factors not found within max_diff limit"
+    return N_prime(N, e, ct)

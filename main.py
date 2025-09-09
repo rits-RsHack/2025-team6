@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from RSA_tool import factordb, solve
+from RSA_tool import factordb, solve, low_index, N_prime, yafu_factor, squared_index, Wiener, is_square, Fermat_factor
 import requests
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ def index():
 
             p, q = factordb(N)
             if not p or not q:
-                result = "No found"
+                result = low_index(N, e, ct)
             else:
                 result = solve(p, q, e, ct)
 
@@ -32,6 +32,3 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
