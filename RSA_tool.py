@@ -32,7 +32,7 @@ def factordb(number):
                 return None, None
                 #データが不完全
         else:
-            print("No found")
+            print("Not found")
             return None, None
     except requests.RequestException as e:
         print(f"Error has occurred: {e}")
@@ -101,7 +101,7 @@ def solve(p, q, e, ct):    #通常攻撃プログラム
         d = pow(e, -1, phi)
         plain_hex = pow(ct, d, p*q)
         plain_text = long_to_bytes(plain_hex)
-        return plain_text.decode()
+        return plain_text.decode(errors = "ignore")
     except Exception as e:
         print(f"Error has occurred: {e}")
         return "No factor"
