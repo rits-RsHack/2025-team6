@@ -122,7 +122,6 @@ def low_index(N, e, ct): #低指数攻撃プログラム
         return "Decryption failed" #復号失敗
 
 
-
 def squared_index(N, e, ct):
 
     try:    
