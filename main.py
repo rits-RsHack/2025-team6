@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from RSA_tool import factordb, low_index, N_prime, yafu_factor, squared_index, Wiener, is_square, Fermat_factor,solve,other_attack
+from RSA_tool import factordb, low_index, N_prime, yafu_factor, squared_index, Wiener, is_square, Fermat_factor, solve, other_attack
 import requests
 
 app = Flask(__name__)
@@ -23,7 +23,7 @@ def index():
             if not p or not q:
                 result = other_attack(N, e, ct)
             else:
-                result = other_attack(N, e, ct) #solve(p, q, e, ct)
+                result = solve(p, q, e, ct)
 
         except Exception as ex:
             result = f"Error: {ex}"
