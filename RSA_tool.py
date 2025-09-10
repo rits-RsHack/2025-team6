@@ -1,4 +1,5 @@
 from Crypto.Util.number import long_to_bytes
+from sympy.ntheory.modular import crt
 import requests
 from gmpy2 import iroot
 import math
@@ -44,7 +45,7 @@ def factordb(number):
         #データ解析エラー
 
 
-def yafu_factor(N, e, ct):
+def yafu_factor(N, e, ct):  #manyprime
 
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -123,7 +124,7 @@ def low_index(N, e, ct): #低指数攻撃プログラム
 
 
 
-def squared_index(N, e, ct):
+def squared_index(N, e, ct): #Nの累乗攻撃プログラム
 
     try:    
         f = math.isqrt(N)
@@ -136,7 +137,7 @@ def squared_index(N, e, ct):
         return None
 
 
-def N_prime(N, e, ct):
+def N_prime(N, e, ct):  #単体素数攻撃
 
     try:    
         f = math.isqrt(N)
@@ -149,7 +150,7 @@ def N_prime(N, e, ct):
         return None
 
 
-def Wiener(N, e, ct):
+def Wiener(N, e, ct):   #Wiener攻撃
 
     d = owiener.attack(e, N)
     if d is None:
@@ -167,7 +168,7 @@ def is_square(n):
     s = isqrt(n)
     return s * s == n
 
-def Fermat_factor(N, e, ct):
+def Fermat_factor(N, e, ct):    #Fermat攻撃
 
     max_diff=10**6
     a = isqrt(N)
@@ -195,6 +196,19 @@ def Fermat_factor(N, e, ct):
 
         a += 1
     return None
+
+
+def hastad_attack(N_list, e, ct_list): #hastadのブロードキャスト攻撃
+    
+    x, _ = crt(N_list, ct_list)
+    plain_hex, exact = iroot(x, e)
+
+    if exact:
+        plain_text = long_to_bytes(plain_hex)
+        return plain_text.decode()
+    
+    return "Hastad attack failed"
+        
 
 def other_attack(N, e, ct):
 

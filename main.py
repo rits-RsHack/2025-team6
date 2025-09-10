@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from RSA_tool import factordb, low_index, N_prime, yafu_factor, squared_index, Wiener, is_square, Fermat_factor, solve, other_attack
+from RSA_tool import factordb, low_index, N_prime, yafu_factor, squared_index, Wiener, is_square, Fermat_factor, solve, other_attack,hastad_attack
 import requests
 
 app = Flask(__name__)
@@ -15,15 +15,31 @@ def index():
     if request.method == "POST":
         try:
 
-            N = int(request.form["N"])
+            N_raw = request.form["N"].strip()
             e = int(request.form["e"])
-            ct = int(request.form["ct"])
+            ct_raw = request.form["ct"].strip()
 
-            p,q = factordb(N)
-            if not p or not q:
-                result = other_attack(N, e, ct)
+            # 点区切りで複数入力に対応
+            N_list = [int(x) for x in N_raw.split(',')] if ',' in N_raw else [int(N_raw)]
+            ct_list = [int(x) for x in ct_raw.split(',')] if ',' in ct_raw else [int(ct_raw)]
+
+            if len(N_list) != len(ct_list):
+
+                result = "Error: N と ct の個数が一致しません"
+
+            elif len(N_list) > 1:
+
+                result = hastad_attack(N_list, e, ct_list)
+
             else:
-                result = solve(p, q, e, ct)
+
+                N = N_list[0]
+                ct = ct_list[0]
+                p, q = factordb(N)
+                if not p or not q:
+                    result = other_attack(N, e, ct)
+                else:
+                    result = solve(p, q, e, ct)
 
         except Exception as ex:
             result = f"Error: {ex}"
