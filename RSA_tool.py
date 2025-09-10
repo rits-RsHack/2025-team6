@@ -58,10 +58,10 @@ def yafu_factor(N, e, ct):
             [yafu_path], 
             input = f"factor({N})\n",
             text = True,
-            shell = True,
+            shell = False,
             stdout = subprocess.PIPE,
             stderr = subprocess.PIPE,
-            timeout = 600
+            timeout = 60
         )
 
         
@@ -74,10 +74,8 @@ def yafu_factor(N, e, ct):
                 factors.append(int(m.group(1)))
     
         if not factors:
-            print("Not found")
             return None
         
-        p = 1
         phi = 1
         for p in factors:
             phi *= (p-1)
@@ -88,9 +86,12 @@ def yafu_factor(N, e, ct):
 
         return plain_text.decode()
 
-    except Exception as e:
-        print(f"Decryption error: {e}")
-        return "yafu failed"
+    except subprocess.TimeoutExpired:
+        print("yafu factorization timed out")
+        return None
+
+    except Exception:
+        return None
 
 
 
@@ -112,13 +113,13 @@ def solve(p, q, e, ct):    #通常攻撃プログラム
 def low_index(N, e, ct): #低指数攻撃プログラム
 
     try:    
-        plain_hex,exact = iroot(e, ct)
+        plain_hex,exact = iroot(ct, e)
 
         if exact:
             plain_text = long_to_bytes(plain_hex)
             return plain_text.decode()
     except Exception:
-        return Wiener(N, e, ct)
+        return None
 
 
 
@@ -132,7 +133,7 @@ def squared_index(N, e, ct):
         plain_text = long_to_bytes(plain_hex)
         return plain_text.decode()
     except Exception:
-        return yafu_factor(N, e, ct)
+        return None
 
 
 def N_prime(N, e, ct):
@@ -145,7 +146,7 @@ def N_prime(N, e, ct):
         plain_text = long_to_bytes(plain_hex)
         return plain_text.decode()
     except Exception:
-        return squared_index(N, e, ct)
+        return None
 
 
 def Wiener(N, e, ct):
@@ -159,7 +160,7 @@ def Wiener(N, e, ct):
             plain_text = long_to_bytes(plain_hex)
             return plain_text.decode()
         except Exception:
-            return Fermat_factor(N, e, ct)
+            return None
 
 
 def is_square(n):
@@ -190,7 +191,16 @@ def Fermat_factor(N, e, ct):
                 plain_text = long_to_bytes(plain_hex)
                 return plain_text.decode()
             except Exception:
-                return N_prime(N, e, ct)
+                return None
 
         a += 1
-    return N_prime(N, e, ct)
+    return None
+
+def other_attack(N, e, ct):
+
+    for attack in [Wiener, low_index, Fermat_factor, squared_index, N_prime, yafu_factor]:
+        result = attack(N, e, ct)
+        if result:
+            return result
+
+    return "All methods failed"
