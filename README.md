@@ -12,10 +12,15 @@ HTML / CSS / JavaScript\
 API: factordb
 
 ## 実装した機能
-factordbを参照 → Nから p,q が得られれば `solve(p,q,e,ct)`\
+factordbを参照 → Nから p,q が得られれば `solve(p,q,e,ct)`を実行\
 p,q が得られない場合は順に試行: `Wiener`, `low_index`, `Fermat_factor`, `squared_index`, `N_prime`, `yafu_factor`\
 入力 N,ct が複数の場合、`Håstad_attak`を実行
 
+## 役割分担
+yura / taka_hirOOoo
+フロントエンド
+つぼ / ムーサン613
+バックエンド
 
 ## 改善できなかった点（実装できなかった機能）
 仮にデコードが成功していた場合でも、flagに文字化けの部分が残っていたら解読失敗となってしまう点
