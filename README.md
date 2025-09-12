@@ -5,7 +5,7 @@ CTFでよく出題される RSA 問題を自動で解析・解読する Web ツ�
 `N`, `e`, `ct` を入力するだけで、代表的な攻撃手法を順に試し、復号結果を表示
 
 ## プレビュー
-![解読画面](./images/logo.png)
+![解読画面](./images/decryption.png)
 ## 使用技術
 Python / Flask\
 HTML / CSS / JavaScript\
