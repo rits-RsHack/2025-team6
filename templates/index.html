@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>RSA Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    <h1>RSA Decryption Tool</h1>
-    <form method="POST">
-        <label>N:</label><br>
-        <input type="text" name="N" required><br><br>
-        
-        <label>e:</label><br>
-        <input type="text" name="e" required><br><br>
+    <header>
+        <h1>RSA Decryption Tool</h1>
+    </header>
+    <section id="rsa-tool">
+        <div class="form">
+            <form method="POST">
+                <div class="form-input-textbox--first">
+                    <input type="text" name="N" placeholder="n: " required>
+                </div>
+                
+                <div class="form-input-textbox">
+                    <input type="text" name="e" placeholder="e: " required>
+                </div>
 
-        <label>ct:</label><br>
-        <input type="text" name="ct" required><br><br>
+                <div class="form-input-textbox">
+                    <input type="text" name="ct" placeholder="ct: " required>
+                </div>
 
-        <label>Attack Method:</label><br>
-        <select name="attack_method">
-            <option value="normal">Normal</option>
-            <option value="low">Low Exponent</option>
-            <option value="wiener">Wiener</option>
-        </select><br><br>
 
-        <button type="submit">Decrypt</button>
-    </form>
+                <div class="form-button">
+                    <button type="submit">Decrypt</button> 
+                </div>
+            </form>
+        </div>
 
-    <h3>Result:</h3>
-    <p>{{ output }}</p>
+        <div class="result">
+            <div class="result-title">
+                <h3>Result:</h3>
+            </div>
+            <div class="result-text">
+                <p>{{ output }}</p>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
