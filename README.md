@@ -1,9 +1,29 @@
-main.pyは入力の受け取りと関数の呼び出し部分を担っている.
+# team6 - R'sA_Hack: RSA Decryption
 
-RSA_tool.pyはRSA暗号解読にかかわる関数を置いている.
+## サービスの概要
+CTFでよく出題される RSA 問題を自動で解析・解読する Web ツール\ 
+`N`, `e`, `ct` を入力するだけで、代表的な攻撃手法を順に試し、復号結果を表示
 
-RSA_tool.pyの関数には,factorDBでp,qが巨大素数の積 Nから分かった場合に限りsolve関数を実行する。p,qが不明な場合[Wiener, low_index, Fermat_factor, squared_index, N_prime, yafu_factor]の順番で関数を実行する.
+## プレビュー
 
-Hastadのブロードキャスト攻撃は,Nとctの入力が複数になるため,場合分けで関数を実行している.(複数の入力にはカンマ「,」を使う)
+## 使用技術
+Python / Flask\
+HTML / CSS / JavaScript\
+API: factordb
 
-プログラムのN,e,ctはindex.htmlのname="N",name="e",name="ct"がそれぞれ対応しており,decode結果は{{ output }}のテンプレート変数で表示することができる.
+## 実装した機能
+factordbを参照 → Nから p,q が得られれば `solve(p,q,e,ct)`を実行\
+p,q が得られない場合は順に試行: `Wiener`, `low_index`, `Fermat_factor`, `squared_index`, `N_prime`, `yafu_factor`\
+入力 N,ct が複数の場合、`Håstad_attak`を実行
+
+## 役割分担
+yura / taka_hirOOoo
+フロントエンド
+つぼ / ムーサン613
+バックエンド
+
+## 改善できなかった点（実装できなかった機能）
+仮にデコードが成功していた場合でも、flagに文字化けの部分が残っていたら解読失敗となってしまう点
+
+## フィードバックが欲しい点
+
