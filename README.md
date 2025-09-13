@@ -31,10 +31,10 @@ UIの実装\
 ## 役割分担
 
 ### yura / taka_hirOOoo
-フロントエンド全般:HTML, CSS, JS
+フロントエンド: HTML, CSS, JS
 
 ### つぼ / ムーサン 613
-バックエンド全般:Python
+バックエンド: Python
 
 ## アピールポイント
 
