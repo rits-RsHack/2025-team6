@@ -35,7 +35,7 @@ header h1 {
 
 .form-input-textbox--first input {
   width: 100%;
-  padding: 15px 20px;
+  padding: 25px 20px;
   margin-bottom: 20px;
   font-size: 1rem;
   border: none;
@@ -47,7 +47,19 @@ header h1 {
 
 .form-input-textbox input {
   width: 100%;
-  padding: 15px 20px;
+  padding: 25px 20px;
+  margin: 20px 0;
+  font-size: 1rem;
+  border: none;
+  border-radius: 15px;
+  background: #ecf0f3;
+  box-shadow: inset 2px 2px 6px #e0e5ec, inset -2px -2px 6px #ffffff;
+  outline: none;
+}
+
+.form-input-textbox--last input {
+  width: 100%;
+  padding: 35px 20px;
   margin: 20px 0;
   font-size: 1rem;
   border: none;
@@ -63,7 +75,7 @@ header h1 {
 }
 
 .form-button button {
-  padding: 12px 30px;
+  padding: 18px 50px;
   border: none;
   border-radius: 30px;
   background: #ecf0f3;
@@ -82,7 +94,7 @@ header h1 {
 
 .result {
   width: 45%;
-  padding: 20px;
+  padding: 36px;
   border: 1px solid #ea168e;
   border-radius: 20px;
   background: #ecf0f3;
