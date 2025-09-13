@@ -1,0 +1,17 @@
+/* light mode */
+:root {
+  --base: #ecf0f3;
+  --shadow-light: #ffffff;
+  --shadow-dark: #e0e5ec;
+  --accent: #ea168e;
+  --text: #2c3e50;
+}
+
+/* dark mode */
+:root[data-theme="dark"] {
+  --base: #323232;
+  --shadow-light: #e0e5ec;
+  --shadow-dark: #000000;
+  --accent: #ea168e;
+  --text: #ecf0f3;
+}
